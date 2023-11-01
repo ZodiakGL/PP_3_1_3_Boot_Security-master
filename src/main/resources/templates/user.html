@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Spring Security Example</title>
+</head>
+<body>
+<h1>User info</h1>
+
+Name: <span th:text="${user.name}"></span>
+<br/><br/>
+Username: <span th:text="${user.mail}"></span>
+<br/><br/>
+
+<input type="button" value="Logout"
+       onclick="window.location.href = '/logout'"/>
+
+</form>
+</body>
+</html>
