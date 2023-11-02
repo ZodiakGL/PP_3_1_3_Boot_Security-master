@@ -18,4 +18,8 @@ public interface UserDao {
     User getUserByName(String name);
 
     void addRole (Role role);
+
+    public Role findById(long id);
+
+    User getUserByLogin(String name);
 }

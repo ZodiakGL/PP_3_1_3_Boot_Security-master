@@ -13,8 +13,11 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
 
 @Service
 @Transactional
@@ -26,11 +29,17 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public UserServiceImp(UserDao userDao) {
         this.userDao = userDao;
         addDefaultRole();
+        addDefaultUser();
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        User user = getUserByLogin(name);
+        if (user == null) {
+            throw new UsernameNotFoundException("There is no user with this name");
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities(user.getRoles()));
     }
 
     @Override
@@ -80,4 +89,22 @@ public class UserServiceImp implements UserService, UserDetailsService {
         addRole(new Role("ROLE_ADMIN"));
     }
 
+    @Transactional
+    @Override
+    public void addDefaultUser() {
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(userDao.findById(1));
+        Set<Role> roleSet2 = new HashSet<>();
+        roleSet2.add(userDao.findById(1));
+        roleSet2.add(userDao.findById(2));
+        User user1 = new User("user", "user", "user", roleSet);
+        User user2 = new User("admin", "admin", "admin", roleSet2);
+        addUser(user1);
+        addUser(user2);
+    }
+
+    @Override
+    public User getUserByLogin(String name) {
+        return userDao.getUserByLogin(name);
+    }
 }

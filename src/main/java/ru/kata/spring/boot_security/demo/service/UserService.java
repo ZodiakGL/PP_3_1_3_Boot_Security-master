@@ -25,4 +25,9 @@ public interface UserService {
     void addRole (Role role);
 
     void addDefaultRole ();
+
+    void addDefaultUser();
+
+    User getUserByLogin(String name);
+
 }
