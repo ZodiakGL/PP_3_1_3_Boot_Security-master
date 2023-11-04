@@ -43,7 +43,7 @@ public class AdminController {
 
 	@PostMapping()
 	public String create(@ModelAttribute("user")
-							 @Valid User user, BindingResult bindingResult,
+						 @Valid User user, BindingResult bindingResult,
 						 @RequestParam("listRoles") ArrayList<Long> roles) {
 		userService.addUser(user);
 		user.setRoles(roleService.findByIdRoles(roles));
