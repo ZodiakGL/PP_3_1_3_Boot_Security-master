@@ -3,10 +3,16 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.RoleServiceImp;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImp;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -14,12 +20,13 @@ import java.util.List;
 public class AdminController {
 
 	private final UserService userService;
+	private final RoleService roleService;
 
 	@Autowired
-	public AdminController(UserService userService) {
+	public AdminController(UserService userService, RoleService roleService) {
 		this.userService = userService;
+		this.roleService = roleService;
 	}
-
 
 	@GetMapping
 	public String getAllUsers (Model model) {
@@ -31,13 +38,16 @@ public class AdminController {
 	public String addUser(Model model) {
 		User user = new User();
 		model.addAttribute("user", user);
-
 		return "newUser";
 	}
 
 	@PostMapping()
-	public String create(@ModelAttribute("user") User user) {
+	public String create(@ModelAttribute("user")
+							 @Valid User user, BindingResult bindingResult,
+						 @RequestParam("listRoles") ArrayList<Long> roles) {
 		userService.addUser(user);
+		user.setRoles(roleService.findByIdRoles(roles));
+		userService.updateUser(user);
 		return "redirect:/admin";
 	}
 

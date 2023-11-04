@@ -19,7 +19,11 @@ public interface UserDao {
 
     void addRole (Role role);
 
+    void save (User user);
+
     public Role findById(long id);
 
     User getUserByLogin(String name);
+
+    public void updateUser (User user);
 }

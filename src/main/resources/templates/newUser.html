@@ -22,7 +22,19 @@
   <input type="text" th:field="*{mail}" id="mail"/>
   <br/><br/>
 
-  <input type="submit" value="Add"/>
+  <label>Roles:
+    <select size="2" multiple name="listRoles" required="required">
+      <option selected="selected" value="1">USER</option>
+      <option value="2">ADMIN</option>
+    </select>
+  </label>
+
+  <input type="submit" value="Ok"/>
+
+  <br/><br/>
+
+  <input type="button" value="Logout"
+         onclick="window.location.href = '/logout'"/>
 
 </form>
 </body>

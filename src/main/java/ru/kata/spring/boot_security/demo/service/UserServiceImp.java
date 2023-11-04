@@ -6,6 +6,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDao;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserServiceImp implements UserService, UserDetailsService {
-
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final UserDao userDao;
 
     @Autowired
@@ -88,6 +90,25 @@ public class UserServiceImp implements UserService, UserDetailsService {
         addRole(new Role("ROLE_USER"));
         addRole(new Role("ROLE_ADMIN"));
     }
+    @Override
+    @Transactional
+    public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userDao.save(user);
+    }
+
+    @Override
+    @Transactional
+    public User passwordCoder(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public void updateUser (User user) {
+        userDao.updateUser(passwordCoder(user));
+    }
 
     @Transactional
     @Override
@@ -99,8 +120,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
         roleSet2.add(userDao.findById(2));
         User user1 = new User("user", "user", "user", roleSet);
         User user2 = new User("admin", "admin", "admin", roleSet2);
-        addUser(user1);
-        addUser(user2);
+        save(user1);
+        save(user2);
     }
 
     @Override

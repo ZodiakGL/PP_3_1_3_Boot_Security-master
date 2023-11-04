@@ -7,6 +7,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -48,12 +49,22 @@ public class UserDaoImp implements UserDao{
 
     @Override
     public User getUserByName(String name) {
-        User user = entityManager.find(User.class, name);
-        return user;
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class);
+        query.setParameter("name", name);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
     @Override
     public void addRole(Role role) {
         entityManager.persist(role);
+    }
+
+    @Override
+    public void save (User user) {
+        entityManager.persist(user);
     }
 
     @Override
@@ -67,5 +78,9 @@ public class UserDaoImp implements UserDao{
                 "join fetch u.roles where u.name = :name", User.class));
         q.setParameter("name", name);
         return q.getResultList().stream().findFirst().orElse(null);
+    }
+    @Override
+    public void updateUser(User user) {
+        entityManager.merge(user);
     }
 }
