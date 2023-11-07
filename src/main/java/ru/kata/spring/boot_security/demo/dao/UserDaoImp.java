@@ -83,4 +83,5 @@ public class UserDaoImp implements UserDao{
     public void updateUser(User user) {
         entityManager.merge(user);
     }
+
 }

@@ -26,4 +26,5 @@ public interface UserDao {
     User getUserByLogin(String name);
 
     public void updateUser (User user);
+
 }

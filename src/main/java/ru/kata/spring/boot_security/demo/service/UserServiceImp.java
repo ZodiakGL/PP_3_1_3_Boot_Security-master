@@ -128,4 +128,5 @@ public class UserServiceImp implements UserService, UserDetailsService {
     public User getUserByLogin(String name) {
         return userDao.getUserByLogin(name);
     }
+
 }

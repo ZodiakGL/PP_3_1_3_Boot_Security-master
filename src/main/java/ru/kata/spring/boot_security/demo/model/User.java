@@ -111,13 +111,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", nickname='" + password + '\'' +
-                ", mail='" + mail + '\'' +
-                '}';
-    }
+
+
 }

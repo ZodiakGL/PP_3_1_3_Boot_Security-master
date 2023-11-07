@@ -7,11 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
-import ru.kata.spring.boot_security.demo.service.RoleServiceImp;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.service.UserServiceImp;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +28,15 @@ public class AdminController {
 	}
 
 	@GetMapping
-	public String getAllUsers (Model model) {
+	public String getAllUsers (Model model, Principal principal) {
+		String loggedInUsername = principal.getName();
 		List<User> users = userService.getAllUsers();
+		User user = userService.findByUserName(principal.getName());
 		model.addAttribute("users", users);
-		return "users";
+		model.addAttribute("user", user);
+		model.addAttribute("loggedInUsername", loggedInUsername);
+
+		return "admin";
 	}
 	@GetMapping("/new")
 	public String addUser(Model model) {
