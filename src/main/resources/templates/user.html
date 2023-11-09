@@ -13,7 +13,7 @@
         <ul class="navbar-nav mr-auto">
             <a class="navbar-brand text-monospace text-white" th:text="${name}"></a>
             <a class="navbar-brand text-monospace text-white"> with roles:</a>
-            <span th:each="role : ${userRoles}" th:text="${role} + ' '"></span>
+            <span th:each="role : ${user.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
         </ul>
     </div>
 </nav>
@@ -45,7 +45,7 @@
                             <td th:text="${user.name}"></td>
                             <td th:text="${user.mail}"></td>
                             <td>
-                                <span th:each="role : ${user.roles}" th:text="${role} + ' '"></span>
+                                <span th:each="role : ${user.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
                             </td>
                         </tr>
                         </tbody>

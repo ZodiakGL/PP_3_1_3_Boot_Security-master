@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <title>Users</title>
@@ -15,7 +14,9 @@
         <ul class="navbar-nav mr-auto">
             <a class="navbar-brand text-monospace text-white" th:text="${loggedInUsername}"></a>
             <a class="navbar-brand text-monospace text-white"> with roles:</a>
-            <span th:each="role : ${userRoles}" th:text="${role} + ' '"></span>
+            <a class="navbar-brand text-monospace text-white">
+                <span th:each="role : ${user.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
+            </a>
         </ul>
         </ul>
         <ul class="navbar-nav">
@@ -76,46 +77,96 @@
                                             <td th:utext="${user.getName()}"></td>
                                             <td th:utext="${user.getMail()}"></td>
                                             <td>
-                                                <span th:each="role : ${user.roles}" th:text="${role} + ' '"></span>
+                                                <span th:each="role : ${user.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
                                             </td>
+                                            <!--/* Кнопка Edit */-->
                                             <td>
-                                                <form method="post" th:action="@{/admin/edit}">
-                                                    <input type="hidden" name="userId" th:value="${user.getId()}" />
-                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-${user.getId()}">
-                                                        Edit
-                                                    </button>
-                                                    <div class="modal fade" id="exampleModal-${user.getId()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Заголовок модального окна</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    ...
-                                                                </div>
+                                                <a class="btn btn-primary" th:href="@{/admin/edit/user (userId=${user.getId()})}"
+                                                   data-toggle="modal" data-target="#editModal"
+                                                   th:data-target="${'#editModal'+user.getId()}">Edit
+                                                </a>
+                                            </td>
+                                            <!--/* Кнопка Delete */-->
+                                            <td>
+                                                <a class="btn btn-danger" th:href="@{/admin/delete (userId=${user.getId()})}"
+                                                   data-toggle="modal" data-target="#deleteModal"
+                                                   th:data-target="${'#deleteModal'+user.getId()}">Delete
+                                                </a>
+                                            </td>
+                                            <!-- Окно Edit -->
+                                            <div class="modal fade" id="editModal"
+                                                 th:id="${'editModal'+user.getId()}"
+                                                 tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+                                                 aria-hidden="false">
+                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Edit user</h5>
+                                                            <button class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    type="button" aria-label="Close"></button>
+                                                        </div>
+                                                        <form th:action="@{/admin/edit/user}"
+                                                              th:method="POST"
+                                                              th:object="${user}">
+                                                            <div class="modal-body text-center">
+
+                                                                <br>
+                                                                <label for="edit-id"><b>Id</b></label>
+                                                                <input class="form-control"
+                                                                       id="edit-id"
+                                                                       th:name="userId"
+                                                                       th:type="text"
+                                                                       th:value="${user.getId()}" disabled/>
+                                                                <br>
+                                                                <label for="edit-name"><b>Name</b></label>
+                                                                <input class="form-control" id="edit-name"
+                                                                       th:name="name"
+                                                                       th:type="text"
+                                                                       th:value="${user.getName()}"/>
+                                                                <br>
+                                                                <label for="edit-mail"><b>Mail</b></label>
+                                                                <input class="form-control" id="edit-mail"
+                                                                       th:name="mail"
+                                                                       th:type="text"
+                                                                       th:value="${user.getUsername()}"/>
+                                                                <br>
+                                                                <label for="edit-password"><b>Password</b></label>
+                                                                <input class="form-control" id="edit-password" required
+                                                                       th:name="password"
+                                                                       th:type="password"
+                                                                       placeholder="" readonly/>
+                                                                <br>
+                                                                <label class="container-fluid"
+                                                                       for="newUserRoles2"><strong>Role</strong>
+                                                                    <select id="newUserRoles2" class="form-control" name="listRoles" multiple size="2">
+                                                                        <option selected="selected" value="1">USER</option>
+                                                                        <option value="2">ADMIN</option>
+
+                                                                    </select>
+                                                                </label>
+
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                    <button type="button" class="btn btn-primary">Edit</button>
+                                                                    <button class="btn btn-secondary"
+                                                                            data-dismiss="modal"
+                                                                            type="button">Close
+                                                                    </button>
+                                                                    <button class="btn btn-primary" type="submit"
+                                                                            value="Edit">Save
+                                                                    </button>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </form>
                                                     </div>
-                                                </form>
-                                            </td>
-                                            <td>
-                                                <form method="post" th:action="@{/admin/delete}">
-                                                    <input type="hidden" name="userId" th:value="${user.getId()}" />
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </td>
+                                                </div>
+                                            </div>
+
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-
                         <div class="tab-pane fade" id="newUser">
                             <div class="form-group">
                                 <div class="control-group required">
@@ -177,7 +228,7 @@
                                 <td th:text="${user.name}"></td>
                                 <td th:text="${user.mail}"></td>
                                 <td>
-                                    <span th:each="role : ${user.roles}" th:text="${role} + ' '"></span>
+                                    <span th:each="role : ${user.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
                                 </td>
                                 </thead>
                                 <tbody id="userPanelBody">
@@ -190,11 +241,13 @@
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 </body>
 </html>

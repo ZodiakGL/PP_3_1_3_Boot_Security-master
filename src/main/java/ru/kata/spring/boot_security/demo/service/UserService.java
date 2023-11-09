@@ -36,4 +36,6 @@ public interface UserService {
 
     public void updateUser (User user);
 
+    void updateUser2 (User user);
+
 }

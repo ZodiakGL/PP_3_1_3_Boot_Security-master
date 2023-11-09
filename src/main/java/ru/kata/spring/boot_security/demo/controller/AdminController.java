@@ -3,7 +3,6 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
@@ -46,18 +45,26 @@ public class AdminController {
 	}
 
 	@PostMapping()
-	public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @RequestParam("listRoles") ArrayList<Long> roles) {
+	public String create(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
 		userService.addUser(user);
 		user.setRoles(roleService.findByIdRoles(roles));
 		userService.updateUser(user);
 		return "redirect:/admin";
 	}
 
-	@PostMapping("/edit")
-	public String edit (@RequestParam("userId") int id, Model model) {
-		model.addAttribute("user", userService.getUserById(id));
-		return  "newUser";
+	@PostMapping("/edit/user")
+	public String editUser(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
+
+		user.setRoles(roleService.findByIdRoles(roles));
+		userService.updateUser2(user);
+		return "redirect:/admin";
 	}
+
+/*	@PostMapping("/edit")
+	public String edit (@RequestParam("userId") int id, Model model) {
+		model.addAttribute("user2", userService.getUserById(id));
+		return  "admin";
+	}*/
 
 	@PostMapping("/delete")
 	public String delete (@RequestParam("userId") int id) {
