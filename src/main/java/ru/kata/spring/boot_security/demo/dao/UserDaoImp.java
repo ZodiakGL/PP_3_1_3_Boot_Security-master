@@ -36,13 +36,13 @@ public class UserDaoImp implements UserDao{
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(Long id) {
         User user = entityManager.find(User.class, id);
         return user;
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         User userDelete = entityManager.find(User.class, id);
         entityManager.remove(userDelete);
     }
@@ -68,7 +68,7 @@ public class UserDaoImp implements UserDao{
     }
 
     @Override
-    public Role findById(long id) {
+    public Role findById(Long id) {
         return entityManager.find(Role.class, id);
     }
 

@@ -12,8 +12,8 @@ public interface UserDao {
 
     void addUser (User user);
 
-    User getUserById(int id);
-    void delete (int id);
+    User getUserById(Long id);
+    void delete (Long id);
 
     User getUserByName(String name);
 
@@ -21,7 +21,7 @@ public interface UserDao {
 
     void save (User user);
 
-    public Role findById(long id);
+    public Role findById(Long id);
 
     User getUserByLogin(String name);
 

@@ -10,5 +10,6 @@ public interface RoleDao {
 
     Set<Role> findByIdRoles(List<Long> roles);
 
+    List<Role> getRolesByUserId(Long id);
 
 }

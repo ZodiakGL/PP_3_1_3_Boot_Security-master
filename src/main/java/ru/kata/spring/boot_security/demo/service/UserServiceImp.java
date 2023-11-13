@@ -15,9 +15,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -30,8 +28,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Autowired
     public UserServiceImp(UserDao userDao) {
         this.userDao = userDao;
-        addDefaultRole();
-        addDefaultUser();
     }
 
     @Override
@@ -58,13 +54,13 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
     @Override
     @Transactional
-    public User getUserById(int id) {
+    public User getUserById(Long id) {
         return userDao.getUserById(id);
     }
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void delete(Long id) {
         userDao.delete(id);
     }
 
@@ -80,25 +76,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void addRole(Role role) {
-        userDao.addRole(role);
-    }
-
-    @Override
-    @Transactional
-    public void addDefaultRole() {
-        addRole(new Role("ROLE_USER"));
-        addRole(new Role("ROLE_ADMIN"));
-    }
-    @Override
-    @Transactional
-    public void save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.save(user);
-    }
-
-    @Override
-    @Transactional
     public User passwordCoder(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return user;
@@ -106,34 +83,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void updateUser2(User user) {
-        userDao.updateUser(user);
-    }
-
-    @Override
-    @Transactional
     public void updateUser (User user) {
-
         userDao.updateUser(passwordCoder(user));
-    }
-
-    @Transactional
-    @Override
-    public void addDefaultUser() {
-        Set<Role> roleSet = new HashSet<>();
-        roleSet.add(userDao.findById(1));
-        Set<Role> roleSet2 = new HashSet<>();
-        roleSet2.add(userDao.findById(1));
-        roleSet2.add(userDao.findById(2));
-        User user1 = new User("user", "user", "user", roleSet);
-        User user2 = new User("admin", "admin", "admin", roleSet2);
-        save(user1);
-        save(user2);
     }
 
     @Override
     public User getUserByLogin(String name) {
         return userDao.getUserByLogin(name);
     }
-
 }

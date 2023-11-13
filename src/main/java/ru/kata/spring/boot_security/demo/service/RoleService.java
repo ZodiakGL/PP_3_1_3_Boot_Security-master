@@ -9,4 +9,7 @@ import java.util.Set;
 public interface RoleService {
 
     Set<Role> findByIdRoles(List<Long> roles);
+
+    List<Role> getRolesByUserId(Long id);
+
 }

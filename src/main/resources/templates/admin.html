@@ -129,7 +129,7 @@
                                                                 <input class="form-control" id="edit-mail"
                                                                        th:name="mail"
                                                                        th:type="text"
-                                                                       th:value="${user.getUsername()}"/>
+                                                                       th:value="${user.getMail()}"/>
                                                                 <br>
                                                                 <label for="edit-password"><b>Password</b></label>
                                                                 <input class="form-control" id="edit-password" required
@@ -140,9 +140,8 @@
                                                                 <label class="container-fluid"
                                                                        for="newUserRoles2"><strong>Role</strong>
                                                                     <select id="newUserRoles2" class="form-control" name="listRoles" multiple size="2">
-                                                                        <option selected="selected" value="1">USER</option>
+                                                                        <option value="1">USER</option>
                                                                         <option value="2">ADMIN</option>
-
                                                                     </select>
                                                                 </label>
 
@@ -160,7 +159,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </tr>
                                         </tbody>
                                     </table>
@@ -198,7 +196,7 @@
                                                     <label class="container-fluid"
                                                            for="newUserRoles"><strong>Role</strong>
                                                         <select id="newUserRoles" class="form-control" name="listRoles" multiple size="2">
-                                                            <option selected="selected" value="1">USER</option>
+                                                            <option value="1">USER</option>
                                                             <option value="2">ADMIN</option>
 
                                                         </select>

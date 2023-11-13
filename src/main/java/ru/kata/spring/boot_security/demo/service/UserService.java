@@ -14,28 +14,17 @@ public interface UserService {
 
     void addUser(User user);
 
-    User getUserById(int id);
+    User getUserById(Long id);
 
-    void delete (int id);
+    void delete (Long id);
 
     User findByUserName(String name);
 
-    void save(User user);
-
     Collection<? extends GrantedAuthority> grantedAuthorities(Collection<Role> roles);
-
-    void addRole (Role role);
-
-    void addDefaultRole ();
-
-    void addDefaultUser();
 
     User getUserByLogin(String name);
 
     User passwordCoder(User user);
 
     public void updateUser (User user);
-
-    void updateUser2 (User user);
-
 }

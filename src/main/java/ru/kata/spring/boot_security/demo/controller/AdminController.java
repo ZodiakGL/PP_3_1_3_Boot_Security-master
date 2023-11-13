@@ -46,28 +46,30 @@ public class AdminController {
 
 	@PostMapping()
 	public String create(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
-		userService.addUser(user);
 		user.setRoles(roleService.findByIdRoles(roles));
 		userService.updateUser(user);
 		return "redirect:/admin";
 	}
 
 	@PostMapping("/edit/user")
-	public String editUser(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
-
-		user.setRoles(roleService.findByIdRoles(roles));
-		userService.updateUser2(user);
+	public String editUser(@ModelAttribute("user") @Valid User user, @RequestParam(value = "listRoles", required = false) ArrayList<Long> roles) {
+		if(roles != null) {
+			user.setRoles(roleService.findByIdRoles(roles));
+		} else {
+			user.setRoles(roleService.getRolesByUserId(user.getId()));
+		}
+		userService.updateUser(user);
 		return "redirect:/admin";
 	}
 
-/*	@PostMapping("/edit")
-	public String edit (@RequestParam("userId") int id, Model model) {
-		model.addAttribute("user2", userService.getUserById(id));
+	@PostMapping("/edit")
+	public String edit (@RequestParam("userId") Long id, Model model) {
+		model.addAttribute("user", userService.getUserById(id));
 		return  "admin";
-	}*/
+	}
 
 	@PostMapping("/delete")
-	public String delete (@RequestParam("userId") int id) {
+	public String delete (@RequestParam("userId") Long id) {
 		userService.delete(id);
 		return "redirect:/admin";
 	}
