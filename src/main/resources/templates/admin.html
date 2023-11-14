@@ -81,7 +81,7 @@
                                             </td>
                                             <!--/* Кнопка Edit */-->
                                             <td>
-                                                <a class="btn btn-primary" th:href="@{/admin/edit/user (userId=${user.getId()})}"
+                                                <a class="btn btn-primary" th:href="@{/admin/edit/(userId=${user.getId()})}"
                                                    data-toggle="modal" data-target="#editModal"
                                                    th:data-target="${'#editModal'+user.getId()}">Edit
                                                 </a>
@@ -113,11 +113,10 @@
 
                                                                 <br>
                                                                 <label for="edit-id"><b>Id</b></label>
-                                                                <input class="form-control"
-                                                                       id="edit-id"
+                                                                <input class="form-control" id="edit-id"
                                                                        th:name="userId"
                                                                        th:type="text"
-                                                                       th:value="${user.getId()}" disabled/>
+                                                                       th:value="${user.getId()}" readonly/>
                                                                 <br>
                                                                 <label for="edit-name"><b>Name</b></label>
                                                                 <input class="form-control" id="edit-name"
@@ -151,7 +150,7 @@
                                                                             type="button">Close
                                                                     </button>
                                                                     <button class="btn btn-primary" type="submit"
-                                                                            value="Edit">Save
+                                                                            value="Edit">Edit
                                                                     </button>
                                                                 </div>
                                                             </div>

@@ -11,7 +11,7 @@
 
 <form th:method="POST" th:action="@{/admin}" th:object="${user}">
 
-  <input type="hidden" th:field="*{id}"/>
+  <input type="hidden" th:name="userId" th:value="${user.getId()}"/>
 
   <label for="name">Name: </label>
   <input type="text" th:field="*{name}" id="name"/>

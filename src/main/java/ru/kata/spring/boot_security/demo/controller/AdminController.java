@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -37,19 +36,19 @@ public class AdminController {
 
 		return "admin";
 	}
-	@GetMapping("/new")
-	public String addUser(Model model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "newUser";
-	}
-
-	@PostMapping()
-	public String create(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
-		user.setRoles(roleService.findByIdRoles(roles));
-		userService.updateUser(user);
-		return "redirect:/admin";
-	}
+//	@GetMapping("/new")
+//	public String addUser(Model model) {
+//		User user = new User();
+//		model.addAttribute("user", user);
+//		return "newUser";
+//	}
+//
+//	@PostMapping()
+//	public String create(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
+//		user.setRoles(roleService.findByIdRoles(roles));
+//		userService.updateUser(user);
+//		return "redirect:/admin";
+//	}
 
 	@PostMapping("/edit/user")
 	public String editUser(@ModelAttribute("user") @Valid User user, @RequestParam(value = "listRoles", required = false) ArrayList<Long> roles) {
