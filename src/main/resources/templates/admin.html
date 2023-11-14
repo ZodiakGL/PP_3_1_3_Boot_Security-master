@@ -88,7 +88,7 @@
                                             </td>
                                             <!--/* Кнопка Delete */-->
                                             <td>
-                                                <a class="btn btn-danger" th:href="@{/admin/delete (userId=${user.getId()})}"
+                                                <a class="btn btn-danger" th:href="@{/admin/delete/(userId=${user.getId()})}"
                                                    data-toggle="modal" data-target="#deleteModal"
                                                    th:data-target="${'#deleteModal'+user.getId()}">Delete
                                                 </a>
@@ -114,7 +114,7 @@
                                                                 <br>
                                                                 <label for="edit-id"><b>Id</b></label>
                                                                 <input class="form-control" id="edit-id"
-                                                                       th:name="userId"
+                                                                       th:name="id"
                                                                        th:type="text"
                                                                        th:value="${user.getId()}" readonly/>
                                                                 <br>
@@ -159,6 +159,69 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="modal fade" id="deleteModal"
+                                                 th:id="${'deleteModal'+user.getId()}"
+                                                 tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+                                                 aria-hidden="false">
+                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Delete user</h5>
+                                                            <button class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    type="button" aria-label="Close"></button>
+                                                        </div>
+                                                        <form th:action="@{/admin/delete/user}"
+                                                              th:method="POST"
+                                                              th:object="${user}">
+                                                            <div class="modal-body text-center">
+
+                                                                <br>
+                                                                <label for="delete-id"><b>Id</b></label>
+                                                                <input class="form-control" id="delete-id"
+                                                                       th:name="id"
+                                                                       th:type="text"
+                                                                       th:value="${user.getId()}" readonly/>
+                                                                <br>
+                                                                <label for="delete-name"><b>Name</b></label>
+                                                                <input class="form-control" id="delete-name"
+                                                                       th:name="name"
+                                                                       th:type="text"
+                                                                       th:value="${user.getName()}" readonly/>
+                                                                <br>
+                                                                <label for="delete-mail"><b>Mail</b></label>
+                                                                <input class="form-control" id="delete-mail"
+                                                                       th:name="mail"
+                                                                       th:type="text"
+                                                                       th:value="${user.getMail()}" readonly/>
+                                                                <br>
+                                                                <label for="delete-password"><b>Password</b></label>
+                                                                <input class="form-control" id="delete-password" required
+                                                                       th:name="password"
+                                                                       th:type="password"
+                                                                       th:value="${user.getPassword()}"
+                                                                       placeholder="" readonly/>
+                                                                    <br>
+                                                                    <label class="container-fluid"
+                                                                           for="newUserRoles3"><strong>Role</strong>
+                                                                        <select id="newUserRoles3" class="form-control" name="listRoles" multiple size="2" disabled>
+                                                                            <option th:each="role : ${user.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></option>
+
+                                                                        </select>
+                                                                    </label>
+                                                                    <button class="btn btn-secondary"
+                                                                            data-dismiss="modal"
+                                                                            type="button">Close
+                                                                    </button>
+                                                                    <button class="btn btn-primary" type="submit"
+                                                                            value="Delete">Delete
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -195,7 +258,7 @@
                                                     </p>
                                                     <label class="container-fluid"
                                                            for="newUserRoles"><strong>Role</strong>
-                                                        <select id="newUserRoles" class="form-control" name="listRoles" multiple size="2">
+                                                        <select id="newUserRoles" class="form-control" name="listRoles" multiple size="2" required>
                                                             <option value="1">USER</option>
                                                             <option value="2">ADMIN</option>
 

@@ -51,7 +51,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/edit/user")
-	public String editUser(@ModelAttribute("user2") @Valid User user, @RequestParam(value = "listRoles", required = false) ArrayList<Long> roles) {
+	public String editUser(@ModelAttribute("user") @Valid User user, @RequestParam(value = "listRoles", required = false) ArrayList<Long> roles) {
 		if(roles != null) {
 			user.setRoles(roleService.findByIdRoles(roles));
 		} else {
@@ -63,13 +63,18 @@ public class AdminController {
 
 	@PostMapping("/edit")
 	public String edit (@RequestParam("userId") Long id, Model model) {
-		model.addAttribute("user2", userService.getUserById(id));
+		model.addAttribute("user", userService.getUserById(id));
+		return  "admin";
+	}
+	@PostMapping("/delete")
+	public String delete (@RequestParam("userId") Long id, Model model) {
+		model.addAttribute("user", userService.getUserById(id));
 		return  "admin";
 	}
 
-	@PostMapping("/delete")
-	public String delete (@RequestParam("userId") Long id) {
-		userService.delete(id);
+	@PostMapping("/delete/user")
+	public String deleteUser (@ModelAttribute("user") @Valid User user) {
+		userService.delete(user.getId());
 		return "redirect:/admin";
 	}
 }

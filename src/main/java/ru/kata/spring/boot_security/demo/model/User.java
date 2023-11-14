@@ -28,9 +28,6 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Collection<Role> roles;
 
-    public User(String user, String password, String mail, Set<String> roleSet) {
-    }
-
     public User(String name, String password, String mail, Collection<Role> roles) {
         this.name = name;
         this.password = password;
