@@ -15,7 +15,7 @@
             <a class="navbar-brand text-monospace text-white" th:text="${loggedInUsername}"></a>
             <a class="navbar-brand text-monospace text-white"> with roles:</a>
             <a class="navbar-brand text-monospace text-white">
-                <span th:each="role : ${user.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
+                <span th:each="role : ${loggedUser.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
             </a>
         </ul>
         </ul>
@@ -222,10 +222,10 @@
                                     <th>Mail</th>
                                     <th>Role</th>
                                 </tr>
-                                <td th:text="${user.name}"></td>
-                                <td th:text="${user.mail}"></td>
+                                <td th:text="${loggedUser.name}"></td>
+                                <td th:text="${loggedUser.mail}"></td>
                                 <td>
-                                    <span th:each="role : ${user.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
+                                    <span th:each="role : ${loggedUser.roles}" th:text="${role.getName().replace('ROLE_', '') + ' '}"></span>
                                 </td>
                                 </thead>
                                 <tbody id="userPanelBody">

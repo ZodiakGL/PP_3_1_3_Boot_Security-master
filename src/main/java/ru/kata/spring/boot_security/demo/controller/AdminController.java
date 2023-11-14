@@ -29,26 +29,26 @@ public class AdminController {
 	public String getAllUsers (Model model, Principal principal) {
 		String loggedInUsername = principal.getName();
 		List<User> users = userService.getAllUsers();
-		User user = userService.findByUserName(principal.getName());
+		User loggedUser = userService.findByUserName(principal.getName());
 		model.addAttribute("users", users);
-		model.addAttribute("user", user);
+		model.addAttribute("loggedUser", loggedUser);
 		model.addAttribute("loggedInUsername", loggedInUsername);
 
 		return "admin";
 	}
-//	@GetMapping("/new")
-//	public String addUser(Model model) {
-//		User user = new User();
-//		model.addAttribute("user", user);
-//		return "newUser";
-//	}
-//
-//	@PostMapping()
-//	public String create(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
-//		user.setRoles(roleService.findByIdRoles(roles));
-//		userService.updateUser(user);
-//		return "redirect:/admin";
-//	}
+	@GetMapping("/new")
+	public String addUser(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
+		return "newUser";
+	}
+
+	@PostMapping()
+	public String create(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
+		user.setRoles(roleService.findByIdRoles(roles));
+		userService.updateUser(user);
+		return "redirect:/admin";
+	}
 
 	@PostMapping("/edit/user")
 	public String editUser(@ModelAttribute("user") @Valid User user, @RequestParam(value = "listRoles", required = false) ArrayList<Long> roles) {
