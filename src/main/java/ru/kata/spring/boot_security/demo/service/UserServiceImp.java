@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @Transactional
 public class UserServiceImp implements UserService, UserDetailsService {
@@ -44,11 +43,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
         return userDao.getAllUsers();
     }
 
-    @Override
-    public void addUser(User user) {
-        userDao.addUser(user);
-
-    }
     @Override
     public User getUserById(Long id) {
         return userDao.getUserById(id);
@@ -86,5 +80,20 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public User getUserByLogin(String name) {
         return userDao.getUserByLogin(name);
+    }
+
+    @Override
+    public void save(User user) {
+        userDao.save(user);
+    }
+
+    @Override
+    public Role findById(Long id) {
+        return userDao.findById(id);
+    }
+
+    @Override
+    public void addRole(Role role) {
+        userDao.addRole(role);
     }
 }

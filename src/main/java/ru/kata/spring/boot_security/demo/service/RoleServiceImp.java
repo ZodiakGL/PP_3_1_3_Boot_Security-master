@@ -20,7 +20,6 @@ public class RoleServiceImp implements RoleService {
     }
 
     @Override
-    @Transactional
     public Set<Role> findByIdRoles(List<Long> roles) {
         return roleDao.findByIdRoles(roles);
     }

@@ -7,12 +7,11 @@ import ru.kata.spring.boot_security.demo.model.User;
 import java.util.Collection;
 import java.util.List;
 
-
 @Component
 public interface UserService {
     List<User> getAllUsers();
 
-    void addUser(User user);
+    void save(User user);
 
     User getUserById(Long id);
 
@@ -27,4 +26,8 @@ public interface UserService {
     User passwordCoder(User user);
 
     public void updateUser (User user);
+
+    Role findById (Long id);
+
+    void addRole (Role role);
 }
