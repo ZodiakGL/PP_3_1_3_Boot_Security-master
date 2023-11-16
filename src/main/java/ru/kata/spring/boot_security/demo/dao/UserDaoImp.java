@@ -23,15 +23,6 @@ public class UserDaoImp implements UserDao{
     }
 
     @Override
-    public void addUser(User user) {
-        if (user.getId() != 0) {
-            entityManager.merge(user);
-        } else {
-            entityManager.persist(user);
-        }
-    }
-
-    @Override
     public User getUserById(Long id) {
         User user = entityManager.find(User.class, id);
         return user;

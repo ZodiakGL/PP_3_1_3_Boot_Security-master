@@ -36,12 +36,6 @@ public class AdminController {
 
 		return "admin";
 	}
-/*	@GetMapping("/new")
-	public String addUser(Model model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "newUser";
-	}*/
 
 	@PostMapping()
 	public String create(@ModelAttribute("user") @Valid User user, @RequestParam("listRoles") ArrayList<Long> roles) {
